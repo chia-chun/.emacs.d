@@ -308,8 +308,8 @@
 (define-key evil-inner-text-objects-map "t" 'evil-inner-tag)
 (define-key evil-inner-text-objects-map "o" 'evil-inner-symbol)
 
-(when evil-want-C-i-jump
-  (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward))
+;(when evil-want-C-i-jump
+;  (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward))
 
 (when evil-want-C-u-scroll
   (define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up))
