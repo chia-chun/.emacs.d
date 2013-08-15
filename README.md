@@ -4,12 +4,15 @@ So I decided to use emacs + EVIL.
 
 2013 Aug 15
 Add whitespace and 79 column visualization.
+Add auto cleanup.
 Add the following to init.el
 
 (require 'whitespace)
 (setq whitespace-line-column 79)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
 (global-whitespace-mode t)
+
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 2013 Aug 9
 Fixed the problem of using TAB in org mode.
