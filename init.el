@@ -8,3 +8,5 @@
 (global-whitespace-mode t)
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
+(set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")

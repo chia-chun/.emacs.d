@@ -2,6 +2,12 @@ I like the power of emacs but also think the text editing
 function of vi/vim is better.
 So I decided to use emacs + EVIL.
 
+2013 Aug 19
+Change the comment color.
+Add the following to init.el
+
+(set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
+
 2013 Aug 15
 Add whitespace and 79 column visualization.
 Add auto cleanup.
