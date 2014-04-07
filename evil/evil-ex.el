@@ -3,7 +3,7 @@
 ;; Author: Frank Fischer <frank fischer at mathematik.tu-chemnitz.de>
 ;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
 
-;; Version: 1.0-dev
+;; Version: 1.0.8
 
 ;;
 ;; This file is NOT part of GNU Emacs.
@@ -62,7 +62,9 @@
      ((\? space) (\? "\\(?:.\\|\n\\)+") #'$2))
     (range
      ("%" #'(evil-ex-full-range))
-     (line (\? "[,;]" line #'$2) #'evil-ex-range))
+     (line (\? "[,;]" line #'$2) #'evil-ex-range)
+     ("`" "[-a-zA-Z_<>']" ",`" "[-a-zA-Z_<>']"
+      #'(evil-ex-char-marker-range $2 $4)))
     (line
      (base (\? offset) #'evil-ex-line)
      ((\? base) offset #'evil-ex-line))
@@ -121,18 +123,34 @@ of the syntax.")
   (and evil-ex-current-buffer t))
 
 (evil-define-command evil-ex (&optional initial-input)
-  "Enter an Ex command."
+  "Enter an Ex command.
+The ex command line is initialized with the value of
+INITIAL-INPUT. If the command is called interactively the initial
+input depends on the current state. If the current state is
+normal state and no count argument is given then the initial
+input is empty. If a prefix count is given the initial input is
+.,.+count. If the current state is visual state then the initial
+input is the visual region '<,'> or `<,`>. If the value of the
+global variable `evil-ex-initial-input' is non-nil, its content
+is appended to the line."
   :keep-visual t
   (interactive
-   (cond
-    ((evil-visual-state-p)
-     '("'<,'>"))
-    (current-prefix-arg
-     (let ((arg (prefix-numeric-value current-prefix-arg)))
-       (cond ((< arg 0) (setq arg (1+ arg)))
-             ((> arg 0) (setq arg (1- arg))))
-       (if (= arg 0) '(".")
-         `(,(format ".,.%+d" arg)))))))
+   (list
+    (concat
+     (cond
+      ((and (evil-visual-state-p)
+            evil-ex-visual-char-range
+            (memq (evil-visual-type) '(inclusive exclusive)))
+       "`<,`>")
+      ((evil-visual-state-p)
+       "'<,'>")
+      (current-prefix-arg
+       (let ((arg (prefix-numeric-value current-prefix-arg)))
+         (cond ((< arg 0) (setq arg (1+ arg)))
+               ((> arg 0) (setq arg (1- arg))))
+         (if (= arg 0) '(".")
+           (format ".,.%+d" arg)))))
+     evil-ex-initial-input)))
   (let ((evil-ex-current-buffer (current-buffer))
         (evil-ex-previous-command (unless initial-input
                                     (car-safe evil-ex-history)))
@@ -342,8 +360,7 @@ in case of incomplete or unknown commands."
        ((null result1) result2)
        ((null result2) result1)
        ((and (eq result1 t) (eq result2 t)) t)
-       (t (assert (equal result1 result2))
-          result1))))
+       (t result1))))
    ((eq flag t)
     (delete-dups
      (append (all-completions string table1 pred)
@@ -715,6 +732,19 @@ Signal an error if MARKER is in a different buffer."
   (setq marker (evil-get-marker marker))
   (if (numberp marker)
       (line-number-at-pos marker)
+    (error "Ex does not support markers in other files")))
+
+(defun evil-ex-char-marker-range (beg end)
+  (when (stringp beg) (setq beg (aref beg 0)))
+  (when (stringp end) (setq end (aref end 0)))
+  (setq beg (evil-get-marker beg)
+        end (evil-get-marker end))
+  (if (and (numberp beg) (numberp end))
+      (evil-expand-range
+       (evil-range beg end
+                   (if (evil-visual-state-p)
+                       (evil-visual-type)
+                     'inclusive)))
     (error "Ex does not support markers in other files")))
 
 (defun evil-ex-re-fwd (pattern)

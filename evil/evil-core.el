@@ -2,7 +2,7 @@
 ;; Author: Vegard Øye <vegard_oye at hotmail.com>
 ;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
 
-;; Version: 1.0-dev
+;; Version: 1.0.8
 
 ;;
 ;; This file is NOT part of GNU Emacs.
@@ -126,20 +126,25 @@
     ;; initialization is only for the case when `evil-local-mode' is
     ;; called directly for the first time in a buffer.
     (unless evil-state (evil-initialize-state))
-    (add-hook 'input-method-activate-hook #'evil-activate-input-method t t)
-    (add-hook 'input-method-deactivate-hook #'evil-deactivate-input-method t t)
-    (add-hook 'activate-mark-hook #'evil-visual-activate-hook nil t)
-    (add-hook 'pre-command-hook #'evil-repeat-pre-hook)
-    (add-hook 'pre-command-hook #'evil-jump-hook nil t)
-    (add-hook 'post-command-hook #'evil-repeat-post-hook)
-    (add-hook 'post-command-hook #'evil-refresh-cursor))
+    (add-hook 'input-method-activate-hook 'evil-activate-input-method t t)
+    (add-hook 'input-method-deactivate-hook 'evil-deactivate-input-method t t)
+    (add-hook 'activate-mark-hook 'evil-visual-activate-hook nil t)
+    (add-hook 'pre-command-hook 'evil-repeat-pre-hook)
+    (add-hook 'pre-command-hook 'evil-jump-hook nil t)
+    (add-hook 'post-command-hook 'evil-repeat-post-hook)
+    (add-hook 'post-command-hook 'evil-refresh-cursor))
    (t
     (evil-refresh-mode-line)
-    (remove-hook 'pre-command-hook #'evil-jump-hook t)
-    (remove-hook 'activate-mark-hook #'evil-visual-activate-hook t)
-    (remove-hook 'input-method-activate-hook #'evil-activate-input-method t)
-    (remove-hook 'input-method-deactivate-hook #'evil-deactivate-input-method t)
+    (remove-hook 'pre-command-hook 'evil-jump-hook t)
+    (remove-hook 'activate-mark-hook 'evil-visual-activate-hook t)
+    (remove-hook 'input-method-activate-hook 'evil-activate-input-method t)
+    (remove-hook 'input-method-deactivate-hook 'evil-deactivate-input-method t)
     (evil-change-state nil))))
+
+;; Make the variable permanent local.  This is particular useful in
+;; conjunction with nXhtml/mumamo because mumamo does not touch these
+;; variables.
+(put 'evil-local-mode 'permanent-local t)
 
 (defun turn-on-evil-mode (&optional arg)
   "Turn on Evil in the current buffer."
@@ -180,12 +185,14 @@ To enable Evil globally, do (evil-mode 1)."
   "Enable Evil in Fundamental mode."
   (if evil-mode
       (progn
-        ;; changed back by `evil-local-mode'
-        (setq-default major-mode 'turn-on-evil-mode)
+        (when (eq (default-value 'major-mode) 'fundamental-mode)
+          ;; changed back by `evil-local-mode'
+          (setq-default major-mode 'turn-on-evil-mode))
         (ad-enable-regexp "^evil")
         (ad-activate-regexp "^evil")
         (with-no-warnings (evil-esc-mode 1)))
-    (setq-default major-mode 'fundamental-mode)
+    (when (eq (default-value 'major-mode) 'turn-on-evil-mode)
+      (setq-default major-mode 'fundamental-mode))
     (ad-disable-regexp "^evil")
     (ad-update-regexp "^evil")
     (with-no-warnings (evil-esc-mode -1))))
@@ -304,13 +311,15 @@ This is the state the buffer comes up in."
 (evil-define-command evil-change-to-initial-state
   (&optional buffer message)
   "Change the state of BUFFER to its initial state.
-This is the state the buffer came up in."
+This is the state the buffer came up in. If Evil is not activated
+then this function does nothing."
   :keep-visual t
   :suppress-operator t
   (with-current-buffer (or buffer (current-buffer))
-    (evil-change-state (evil-initial-state-for-buffer
-                        buffer (or evil-default-state 'normal))
-                       message)))
+    (when evil-local-mode
+      (evil-change-state (evil-initial-state-for-buffer
+                          buffer (or evil-default-state 'normal))
+                         message))))
 
 (evil-define-command evil-change-to-previous-state
   (&optional buffer message)
@@ -333,7 +342,7 @@ This is the state the buffer came up in."
 ;; run. This is appropriate since many buffers are used for throwaway
 ;; purposes. Passing the buffer to `display-buffer' indicates
 ;; otherwise, though, so advise this function to initialize Evil.
-(defadvice display-buffer (before evil activate)
+(defadvice display-buffer (before evil)
   "Initialize Evil in the displayed buffer."
   (when evil-mode
     (when (get-buffer (ad-get-arg 0))
@@ -341,7 +350,7 @@ This is the state the buffer came up in."
         (unless evil-local-mode
           (evil-local-mode 1))))))
 
-(defadvice switch-to-buffer (before evil activate)
+(defadvice switch-to-buffer (before evil)
   "Initialize Evil in the displayed buffer."
   (when evil-mode
     (let* ((arg0 (ad-get-arg 0))
@@ -417,7 +426,7 @@ This is the state the buffer came up in."
       (setq evil-input-method nil))))
 (put 'evil-deactivate-input-method 'permanent-local-hook t)
 
-(defadvice toggle-input-method (around evil activate)
+(defadvice toggle-input-method (around evil)
   "Refresh `evil-input-method'."
   (cond
    ((not evil-local-mode)

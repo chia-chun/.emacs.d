@@ -3,7 +3,7 @@
 ;; Author: Vegard Øye <vegard_oye at hotmail.com>
 ;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
 
-;; Version: 1.0-dev
+;; Version: 1.0.8
 
 ;;
 ;; This file is NOT part of GNU Emacs.
@@ -816,10 +816,14 @@ CORNER defaults to `upper-left'."
   (cond
    ((evil-replace-state-p)
     (overwrite-mode 1)
-    (add-hook 'pre-command-hook #'evil-replace-pre-command nil t))
+    (add-hook 'pre-command-hook #'evil-replace-pre-command nil t)
+    (unless evil-want-fine-undo
+      (evil-start-undo-step t)))
    (t
     (overwrite-mode -1)
     (remove-hook 'pre-command-hook #'evil-replace-pre-command t)
+    (unless evil-want-fine-undo
+      (evil-end-undo-step t))
     (when evil-move-cursor-back
       (evil-move-cursor-back))))
   (setq evil-replace-alist nil))
