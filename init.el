@@ -4,7 +4,8 @@
 (evil-mode 1)
 
 (require 'whitespace)
-(setq whitespace-style '(face empty tabs trailing indentation::space))
+(setq whitespace-style '(face empty tabs trailing indentation))
+(setq-default indent-tabs-mode nil)
 (global-whitespace-mode t)
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
