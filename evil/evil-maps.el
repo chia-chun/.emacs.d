@@ -315,8 +315,8 @@
 (define-key evil-motion-state-map "gn" 'evil-next-match)
 (define-key evil-motion-state-map "gN" 'evil-previous-match)
 
-(when evil-want-C-i-jump
-  (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward))
+;(when evil-want-C-i-jump
+;  (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward))
 
 (when evil-want-C-u-scroll
   (define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up))
