@@ -11,8 +11,8 @@
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'whitespace-cleanup)
 ;change the color of comments
-(set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
-(set-face-attribute 'minibuffer-prompt nil :foreground "#3f7f5f")
+(set-face-attribute 'font-lock-comment-face nil :foreground "#5f9f7f")
+(set-face-attribute 'minibuffer-prompt nil :foreground "#5f9f7f")
 ;show matching parentheses
 (show-paren-mode 1)
 ;Fill Column Indicator
