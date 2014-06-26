@@ -13,6 +13,11 @@
 ;change the color of comments
 (set-face-attribute 'font-lock-comment-face nil :foreground "#5f9f7f")
 (set-face-attribute 'minibuffer-prompt nil :foreground "#5f9f7f")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "#00bfff")
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#ab82ff")
+(set-face-attribute 'font-lock-string-face nil :foreground "#43cd80")
+(set-face-attribute 'font-lock-builtin-face nil :foreground "#79cdcd")
+(set-face-attribute 'font-lock-constant-face nil :foreground "#7ac5cd")
 ;show matching parentheses
 (show-paren-mode 1)
 ;Fill Column Indicator
