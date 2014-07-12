@@ -10,14 +10,6 @@
 (setq-default indent-tabs-mode nil)
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'whitespace-cleanup)
-;change the colors
-(set-face-attribute 'font-lock-comment-face nil :foreground "#5f9f7f")
-(set-face-attribute 'minibuffer-prompt nil :foreground "#5f9f7f")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "#00bfff")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "#ab82ff")
-(set-face-attribute 'font-lock-string-face nil :foreground "#43cd80")
-(set-face-attribute 'font-lock-builtin-face nil :foreground "#79cdcd")
-(set-face-attribute 'font-lock-constant-face nil :foreground "#7ac5cd")
 ;show matching parentheses
 (show-paren-mode 1)
 ;Fill Column Indicator
@@ -37,3 +29,13 @@
 (setq org-startup-truncated nil)
 ;Set up default Scheme implementation
 (setq geiser-active-implementations '(guile))
+;Change colors
+(custom-set-faces
+  '(font-lock-comment-face ((t (:foreground "#5f9f7f"))))
+  '(minibuffer-prompt ((t (:foreground "#5f9f7f"))))
+  '(font-lock-function-name-face ((t (:foreground "#00bfff"))))
+  '(font-lock-keyword-face ((t (:foreground "#ab82ff"))))
+  '(font-lock-string-face ((t (:foreground "#43cd80"))))
+  '(font-lock-builtin-face ((t (:foreground "#79cdcd"))))
+  '(font-lock-constant-face ((t ( :foreground "#7ac5cd"))))
+  '(geiser-font-lock-autodoc-identifier ((t (:foreground "#43cd80")))))
