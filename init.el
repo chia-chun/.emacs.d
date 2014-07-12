@@ -10,7 +10,7 @@
 (setq-default indent-tabs-mode nil)
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'whitespace-cleanup)
-;change the color of comments
+;change the colors
 (set-face-attribute 'font-lock-comment-face nil :foreground "#5f9f7f")
 (set-face-attribute 'minibuffer-prompt nil :foreground "#5f9f7f")
 (set-face-attribute 'font-lock-function-name-face nil :foreground "#00bfff")
@@ -35,3 +35,5 @@
 (add-hook 'window-configuration-change-hook 'auto-fci-mode)
 ;Wrap lines in org-mode
 (setq org-startup-truncated nil)
+;Set up default Scheme implementation
+(setq geiser-active-implementations '(guile))
