@@ -31,11 +31,16 @@
 (setq geiser-active-implementations '(guile))
 ;Change colors
 (custom-set-faces
-  '(font-lock-comment-face ((t (:foreground "#5f9f7f"))))
-  '(minibuffer-prompt ((t (:foreground "#5f9f7f"))))
-  '(font-lock-function-name-face ((t (:foreground "#00bfff"))))
-  '(font-lock-keyword-face ((t (:foreground "#ab82ff"))))
-  '(font-lock-string-face ((t (:foreground "#43cd80"))))
-  '(font-lock-builtin-face ((t (:foreground "#79cdcd"))))
-  '(font-lock-constant-face ((t ( :foreground "#7ac5cd"))))
-  '(geiser-font-lock-autodoc-identifier ((t (:foreground "#43cd80")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-builtin-face ((t (:foreground "#79cdcd"))))
+ '(font-lock-comment-face ((t (:foreground "#5f9f7f"))))
+ '(font-lock-constant-face ((t (:foreground "#7ac5cd"))))
+ '(font-lock-function-name-face ((t (:foreground "#00bfff"))))
+ '(font-lock-keyword-face ((t (:foreground "#ab82ff"))))
+ '(font-lock-string-face ((t (:foreground "#43cd80"))))
+ '(geiser-font-lock-autodoc-identifier ((t (:foreground "#43cd80"))))
+ '(minibuffer-prompt ((t (:foreground "#5f9f7f"))))
+ '(region ((t (:background "#006400")))))
