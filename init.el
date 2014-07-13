@@ -31,10 +31,6 @@
 (setq geiser-active-implementations '(guile))
 ;Change colors
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(font-lock-builtin-face ((t (:foreground "#79cdcd"))))
  '(font-lock-comment-face ((t (:foreground "#5f9f7f"))))
  '(font-lock-constant-face ((t (:foreground "#7ac5cd"))))
