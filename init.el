@@ -39,4 +39,6 @@
  '(font-lock-string-face ((t (:foreground "#43cd80"))))
  '(geiser-font-lock-autodoc-identifier ((t (:foreground "#43cd80"))))
  '(minibuffer-prompt ((t (:foreground "#5f9f7f"))))
+ '(outline-1 ((t (:foreground "#eedd82"))))
+ '(outline-2 ((t (:foreground "#98fb98"))))
  '(region ((t (:background "#006400")))))
