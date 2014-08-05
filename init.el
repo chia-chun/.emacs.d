@@ -31,7 +31,21 @@
 (setq geiser-active-implementations '(guile))
 ;Change colors
 (custom-set-faces
- '(default ((t (:inherit nil :stipple nil :background "gray7" :foreground "gray77" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 145 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
+ '(default ((t (:inherit nil
+                :stipple nil
+                :background "gray7"
+                :foreground "gray77"
+                :inverse-video nil
+                :box nil
+                :strike-through nil
+                :overline nil
+                :underline nil
+                :slant normal
+                :weight normal
+                :height 145
+                :width normal
+                :foundry "unknown"
+                :family "DejaVu Sans Mono"))))
  '(font-lock-builtin-face ((t (:foreground "#79cdcd"))))
  '(font-lock-comment-face ((t (:foreground "#5f9f7f"))))
  '(font-lock-constant-face ((t (:foreground "#7ac5cd"))))
@@ -43,3 +57,5 @@
  '(outline-1 ((t (:foreground "#eedd82"))))
  '(outline-2 ((t (:foreground "#98fb98"))))
  '(region ((t (:background "#006400")))))
+(custom-set-variables
+ '(inhibit-startup-screen t))
