@@ -33,7 +33,7 @@
 (custom-set-faces
  '(default ((t (:inherit nil
                 :stipple nil
-                :background "gray7"
+                :background "gray9"
                 :foreground "gray77"
                 :inverse-video nil
                 :box nil
